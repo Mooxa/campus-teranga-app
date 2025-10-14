@@ -1,0 +1,31 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark blue background -->
+  <rect width="100" height="100" fill="#0C1C2C" rx="10"/>
+  
+  <!-- Orange tree trunk -->
+  <rect x="40" y="60" width="20" height="25" fill="#E1701A" rx="2"/>
+  
+  <!-- Orange tree canopy -->
+  <ellipse cx="50" cy="50" rx="25" ry="20" fill="#E1701A"/>
+  
+  <!-- Person silhouette -->
+  <g transform="translate(65, 70)">
+    <!-- Person body -->
+    <ellipse cx="0" cy="8" rx="4" ry="6" fill="#E1701A"/>
+    
+    <!-- Person head -->
+    <circle cx="0" cy="2" r="3" fill="#E1701A"/>
+    
+    <!-- Graduation cap -->
+    <rect x="-4" y="-1" width="8" height="2" fill="#E1701A" rx="0.5"/>
+    
+    <!-- Book -->
+    <rect x="2" y="4" width="3" height="4" fill="#E1701A" rx="0.5"/>
+  </g>
+  
+  <!-- Text: CAMPUS TÉRANGA -->
+  <text x="50" y="90" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#FFFFFF" text-anchor="middle">
+    <tspan x="50" dy="0">CAMPUS</tspan>
+    <tspan x="50" dy="10">TÉRANGA</tspan>
+  </text>
+</svg>

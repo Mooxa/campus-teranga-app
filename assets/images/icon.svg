@@ -1,0 +1,40 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark blue background -->
+  <rect width="1024" height="1024" fill="#1e3a8a" rx="200"/>
+  
+  <!-- Orange tree trunk -->
+  <rect x="400" y="600" width="224" height="300" fill="#f97316" rx="20"/>
+  
+  <!-- Orange tree canopy - main body -->
+  <ellipse cx="512" cy="500" rx="300" ry="200" fill="#f97316"/>
+  
+  <!-- Additional canopy layers for depth -->
+  <ellipse cx="480" cy="480" rx="250" ry="150" fill="#ea580c"/>
+  <ellipse cx="540" cy="460" rx="200" ry="120" fill="#dc2626"/>
+  
+  <!-- Person silhouette -->
+  <g transform="translate(700, 650)">
+    <!-- Person body -->
+    <ellipse cx="0" cy="80" rx="50" ry="80" fill="#f97316"/>
+    
+    <!-- Person head -->
+    <circle cx="0" cy="30" r="40" fill="#f97316"/>
+    
+    <!-- Graduation cap -->
+    <rect x="-60" y="-10" width="120" height="25" fill="#f97316" rx="8"/>
+    <rect x="-40" y="-30" width="80" height="15" fill="#f97316" rx="6"/>
+    
+    <!-- Book -->
+    <rect x="20" y="50" width="40" height="60" fill="#f97316" rx="5"/>
+    <line x1="25" y1="60" x2="55" y2="60" stroke="#1e3a8a" stroke-width="3"/>
+    <line x1="25" y1="70" x2="55" y2="70" stroke="#1e3a8a" stroke-width="3"/>
+    <line x1="25" y1="80" x2="55" y2="80" stroke="#1e3a8a" stroke-width="3"/>
+    <line x1="25" y1="90" x2="55" y2="90" stroke="#1e3a8a" stroke-width="3"/>
+  </g>
+  
+  <!-- Text: CAMPUS TÉRANGA -->
+  <text x="512" y="950" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="#fef3c7" text-anchor="middle">
+    <tspan x="512" dy="0">CAMPUS</tspan>
+    <tspan x="512" dy="100">TÉRANGA</tspan>
+  </text>
+</svg>
