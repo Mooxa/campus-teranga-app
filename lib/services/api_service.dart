@@ -5,9 +5,11 @@ import '../models/user.dart';
 import '../models/formation.dart';
 import '../models/service.dart';
 import '../models/event.dart';
+import '../config/app_config.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://127.0.0.1:3000/api';
+  // Use configuration-based API URL
+  static String get baseUrl => AppConfig.apiUrl;
   String? _token;
 
   ApiService() {
@@ -33,26 +35,50 @@ class ApiService {
 
   Map<String, String> get _headers => {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'User-Agent': 'Campus-Teranga-App/${AppConfig.appVersion}',
     if (_token != null) 'Authorization': 'Bearer $_token',
   };
 
+  // HTTP client with timeout configuration
+  http.Client get _client => http.Client();
+  
+  // Helper method for making HTTP requests with timeout and error handling
+  Future<http.Response> _makeRequest(Future<http.Response> Function() request) async {
+    try {
+      final response = await request().timeout(
+        Duration(seconds: AppConfig.apiTimeoutSeconds),
+      );
+      return response;
+    } catch (e) {
+      if (e is http.ClientException) {
+        throw Exception('Network error: Please check your internet connection');
+      } else if (e.toString().contains('timeout')) {
+        throw Exception('Request timeout: Please try again');
+      } else {
+        throw Exception('Request failed: ${e.toString()}');
+      }
+    }
+  }
+
   // Auth endpoints
   Future<Map<String, dynamic>> login(String phoneNumber, String password) async {
-    final response = await http.post(
+    final response = await _makeRequest(() => http.post(
       Uri.parse('$baseUrl/auth/login'),
       headers: _headers,
       body: jsonEncode({
         'phoneNumber': phoneNumber,
         'password': password,
       }),
-    );
+    ));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       await _saveToken(data['token']);
       return data;
     } else {
-      throw Exception('Login failed: ${response.body}');
+      final errorData = jsonDecode(response.body);
+      throw Exception(errorData['message'] ?? 'Login failed');
     }
   }
 
