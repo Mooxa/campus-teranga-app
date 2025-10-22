@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/providers/app_providers.dart';
 
 /// Modern Login Page
 /// 
@@ -11,11 +13,29 @@ import '../../../../core/theme/app_theme.dart';
 /// - Biometric authentication
 /// - Password visibility toggle
 /// - Remember me functionality
-class LoginPage extends ConsumerWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends ConsumerState<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     
     return Scaffold(
@@ -34,7 +54,10 @@ class LoginPage extends ConsumerWidget {
                   const SizedBox(height: 64),
                   
                   // Login form
-                  _buildLoginForm(theme),
+                  Form(
+                    key: _formKey,
+                    child: _buildLoginForm(theme),
+                  ),
                   
                   const SizedBox(height: 24),
                   
@@ -91,21 +114,57 @@ class LoginPage extends ConsumerWidget {
   Widget _buildLoginForm(ThemeData theme) {
     return Column(
       children: [
-        TextField(
+        TextFormField(
+          controller: _phoneController,
+          keyboardType: TextInputType.phone,
           decoration: InputDecoration(
             labelText: 'Numéro de téléphone',
             prefixIcon: const Icon(Icons.phone),
             hintText: '+221 XX XXX XX XX',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Veuillez entrer votre numéro de téléphone';
+            }
+            if (value.length < 9) {
+              return 'Le numéro de téléphone doit contenir au moins 9 chiffres';
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 24),
-        TextField(
-          obscureText: true,
+        TextFormField(
+          controller: _passwordController,
+          obscureText: !_isPasswordVisible,
           decoration: InputDecoration(
             labelText: 'Mot de passe',
             prefixIcon: const Icon(Icons.lock),
-            suffixIcon: const Icon(Icons.visibility_off),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Veuillez entrer votre mot de passe';
+            }
+            if (value.length < 6) {
+              return 'Le mot de passe doit contenir au moins 6 caractères';
+            }
+            return null;
+          },
         ),
       ],
     );
@@ -115,10 +174,65 @@ class LoginPage extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
-        onPressed: () {
-          // Handle login
-        },
-        child: const Text('Se connecter'),
+        onPressed: _isLoading ? null : _handleLogin,
+        child: _isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              )
+            : const Text('Se connecter'),
+      ),
+    );
+  }
+
+  Future<void> _handleLogin() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final authState = ref.read(authStateProvider.notifier);
+      await authState.login(
+        _phoneController.text.trim(),
+        _passwordController.text,
+      );
+
+      if (mounted) {
+        // Check if login was successful
+        final isAuthenticated = ref.read(authStateProvider);
+        if (isAuthenticated) {
+          context.go('/home');
+        } else {
+          _showErrorSnackBar('Échec de la connexion. Vérifiez vos identifiants.');
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        _showErrorSnackBar('Erreur de connexion: ${e.toString()}');
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -133,7 +247,7 @@ class LoginPage extends ConsumerWidget {
         ),
         TextButton(
           onPressed: () {
-            // Navigate to register
+            context.go('/auth/register');
           },
           child: const Text('S\'inscrire'),
         ),
