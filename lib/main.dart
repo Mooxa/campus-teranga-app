@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 
 import 'core/theme/app_theme.dart';
 import 'core/services/storage_service.dart';
 import 'core/providers/app_providers.dart';
 import 'core/navigation/app_router.dart';
 import 'core/config/app_config.dart';
+import 'core/localization/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,10 +63,8 @@ class CampusTerangaApp extends ConsumerWidget {
       
       // Localization
       locale: const Locale('fr', 'SN'), // French - Senegal
-      supportedLocales: const [
-        Locale('fr', 'SN'), // French - Senegal
-        Locale('en', 'US'), // English - US
-      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       
       // Builder for global error handling
       builder: (context, child) {
