@@ -108,7 +108,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
           children: [
             // Header with skip button
             Padding(
-              padding: const EdgeInsets.all(AppTheme.spacing['md']!),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -161,7 +161,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
 
   Widget _buildBottomNavigation(ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.all(AppTheme.spacing['lg']!),
+      padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -177,7 +177,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   ),
                 ),
               
-              if (_currentPage > 0) const SizedBox(width: AppTheme.spacing['md']!),
+              if (_currentPage > 0) const SizedBox(width: 16),
               
               // Next/Get Started button
               Expanded(
@@ -192,7 +192,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             ],
           ),
           
-          const SizedBox(height: AppTheme.spacing['md']!),
+          const SizedBox(height: 16),
           
           // Page indicators
           Row(

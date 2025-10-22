@@ -67,13 +67,14 @@ final connectivityServiceProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ConnectivityServiceRef = AutoDisposeProviderRef<ConnectivityService>;
-String _$storageServiceHash() => r'33e298cb2e4cd5529430853512cd431648c54f81';
+String _$storageServiceHash() => r'c16ffbaabb7a511435f7c1635ce090831c18a61e';
 
 /// Storage Service Provider
 ///
 /// Copied from [storageService].
 @ProviderFor(storageService)
-final storageServiceProvider = AutoDisposeProvider<StorageService>.internal(
+final storageServiceProvider =
+    AutoDisposeFutureProvider<StorageService>.internal(
   storageService,
   name: r'storageServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -85,14 +86,14 @@ final storageServiceProvider = AutoDisposeProvider<StorageService>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef StorageServiceRef = AutoDisposeProviderRef<StorageService>;
-String _$apiServiceHash() => r'670a2e41cb25a15554b2b97c77864f8f2d2c80aa';
+typedef StorageServiceRef = AutoDisposeFutureProviderRef<StorageService>;
+String _$apiServiceHash() => r'0e208292796791069e643c6202dd4e274e9a4202';
 
 /// API Service Provider
 ///
 /// Copied from [apiService].
 @ProviderFor(apiService)
-final apiServiceProvider = AutoDisposeProvider<ApiService>.internal(
+final apiServiceProvider = AutoDisposeFutureProvider<ApiService>.internal(
   apiService,
   name: r'apiServiceProvider',
   debugGetCreateSourceHash:
@@ -103,14 +104,14 @@ final apiServiceProvider = AutoDisposeProvider<ApiService>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef ApiServiceRef = AutoDisposeProviderRef<ApiService>;
-String _$authServiceHash() => r'46c0121964b3e37738017d669bc235e3e0e71e1e';
+typedef ApiServiceRef = AutoDisposeFutureProviderRef<ApiService>;
+String _$authServiceHash() => r'5891c8cdffe685ce59454e5213b4faa86e8b6b83';
 
 /// Auth Service Provider
 ///
 /// Copied from [authService].
 @ProviderFor(authService)
-final authServiceProvider = AutoDisposeProvider<AuthService>.internal(
+final authServiceProvider = AutoDisposeFutureProvider<AuthService>.internal(
   authService,
   name: r'authServiceProvider',
   debugGetCreateSourceHash:
@@ -121,8 +122,8 @@ final authServiceProvider = AutoDisposeProvider<AuthService>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AuthServiceRef = AutoDisposeProviderRef<AuthService>;
-String _$currentUserHash() => r'0e070dcc6587131755e2fba81c1a1c228d574cc9';
+typedef AuthServiceRef = AutoDisposeFutureProviderRef<AuthService>;
+String _$currentUserHash() => r'8cdd62bafc41520a6d50813bb7c3ad958028b6d7';
 
 /// Current User Provider
 ///
@@ -139,7 +140,7 @@ final currentUserProvider =
 );
 
 typedef _$CurrentUser = AutoDisposeNotifier<User?>;
-String _$authStateHash() => r'3e30bce9ba8f774a68b3ae510c1f0d576019c49d';
+String _$authStateHash() => r'2a8da312b784dd69731f4f670e05ce741f5b9651';
 
 /// Authentication State Provider
 ///
@@ -173,22 +174,23 @@ final connectivityStateProvider =
 );
 
 typedef _$ConnectivityState = AutoDisposeNotifier<bool>;
-String _$appThemeHash() => r'373718e220e894e3f5753bec92659722140abb59';
+String _$appThemeModeHash() => r'e277a3afddde904df9020c860fc7eb2327398c7d';
 
 /// App Theme Provider
 ///
-/// Copied from [AppTheme].
-@ProviderFor(AppTheme)
-final appThemeProvider = AutoDisposeNotifierProvider<AppTheme, bool>.internal(
-  AppTheme.new,
-  name: r'appThemeProvider',
+/// Copied from [AppThemeMode].
+@ProviderFor(AppThemeMode)
+final appThemeModeProvider =
+    AutoDisposeNotifierProvider<AppThemeMode, bool>.internal(
+  AppThemeMode.new,
+  name: r'appThemeModeProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$appThemeHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$appThemeModeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AppTheme = AutoDisposeNotifier<bool>;
+typedef _$AppThemeMode = AutoDisposeNotifier<bool>;
 String _$loadingStateHash() => r'7756dc38244f37078ca70af076b56dd51083bbc0';
 
 /// Loading State Provider

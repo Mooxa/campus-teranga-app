@@ -26,14 +26,14 @@ class OnboardingSlideWidget extends StatelessWidget {
     final theme = Theme.of(context);
     
     return Padding(
-      padding: const EdgeInsets.all(AppTheme.spacing['lg']!),
+      padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Illustration/Icon
           _buildIllustration(theme),
           
-          const SizedBox(height: AppTheme.spacing['2xl']!),
+          const SizedBox(height: 48),
           
           // Title
           Text(
@@ -48,7 +48,7 @@ class OnboardingSlideWidget extends StatelessWidget {
           .fadeIn(duration: 600.ms, delay: 200.ms)
           .slideY(begin: 0.3, end: 0),
           
-          const SizedBox(height: AppTheme.spacing['sm']!),
+          const SizedBox(height: 8),
           
           // Subtitle
           Text(
@@ -63,7 +63,7 @@ class OnboardingSlideWidget extends StatelessWidget {
           .fadeIn(duration: 600.ms, delay: 400.ms)
           .slideY(begin: 0.3, end: 0),
           
-          const SizedBox(height: AppTheme.spacing['lg']!),
+          const SizedBox(height: 24),
           
           // Description
           Text(

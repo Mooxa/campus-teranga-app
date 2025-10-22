@@ -22,7 +22,7 @@ class SplashLogoWidget extends StatelessWidget {
       height: 120,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(AppTheme.borderRadius['xl']!),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -37,7 +37,7 @@ class SplashLogoWidget extends StatelessWidget {
           // Background gradient
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppTheme.borderRadius['xl']!),
+              borderRadius: BorderRadius.circular(24),
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -117,17 +117,9 @@ class SplashLogoWidget extends StatelessWidget {
             duration: 2000.ms,
             curve: Curves.easeInOut,
           )
-          .fadeIn(
-            begin: 0.0,
-            end: 0.3,
-            duration: 1000.ms,
-          )
+          .fadeIn(duration: 1000.ms)
           .then()
-          .fadeOut(
-            begin: 0.3,
-            end: 0.0,
-            duration: 1000.ms,
-          ),
+          .fadeOut(duration: 1000.ms),
         ],
       ),
     )

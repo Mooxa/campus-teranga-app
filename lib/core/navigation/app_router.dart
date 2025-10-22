@@ -274,14 +274,21 @@ class CustomPageTransition extends CustomTransitionPage<void> {
     required super.name,
     super.arguments,
   }) : super(
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(
-        opacity: animation,
-        child: child,
-      );
-    },
+    transitionsBuilder: _fadeTransitionBuilder,
     transitionDuration: const Duration(milliseconds: 300),
   );
+
+  static Widget _fadeTransitionBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
+  }
 }
 
 /// Slide transition for specific routes
@@ -292,20 +299,27 @@ class SlidePageTransition extends CustomTransitionPage<void> {
     required super.name,
     super.arguments,
   }) : super(
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(
-        CurveTween(curve: curve),
-      );
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
+    transitionsBuilder: _slideTransitionBuilder,
     transitionDuration: const Duration(milliseconds: 300),
   );
+
+  static Widget _slideTransitionBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    const begin = Offset(1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+
+    var tween = Tween(begin: begin, end: end).chain(
+      CurveTween(curve: curve),
+    );
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  }
 }

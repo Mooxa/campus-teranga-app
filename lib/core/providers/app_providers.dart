@@ -39,27 +39,31 @@ ConnectivityService connectivityService(ConnectivityServiceRef ref) {
 
 /// Storage Service Provider
 @riverpod
-StorageService storageService(StorageServiceRef ref) {
+Future<StorageService> storageService(StorageServiceRef ref) async {
+  final prefs = await ref.watch(sharedPreferencesProvider.future);
   return StorageService(
-    sharedPreferences: ref.watch(sharedPreferencesProvider),
+    prefs: prefs,
     secureStorage: ref.watch(secureStorageProvider),
   );
 }
 
 /// API Service Provider
 @riverpod
-ApiService apiService(ApiServiceRef ref) {
+Future<ApiService> apiService(ApiServiceRef ref) async {
+  final storageService = await ref.watch(storageServiceProvider.future);
   return ApiService(
-    storageService: ref.watch(storageServiceProvider),
+    storageService: storageService,
   );
 }
 
 /// Auth Service Provider
 @riverpod
-AuthService authService(AuthServiceRef ref) {
+Future<AuthService> authService(AuthServiceRef ref) async {
+  final apiService = await ref.watch(apiServiceProvider.future);
+  final storageService = await ref.watch(storageServiceProvider.future);
   return AuthService(
-    apiService: ref.watch(apiServiceProvider),
-    storageService: ref.watch(storageServiceProvider),
+    apiService: apiService,
+    storageService: storageService,
   );
 }
 
@@ -74,11 +78,17 @@ class CurrentUser extends _$CurrentUser {
   }
 
   Future<void> _loadUser() async {
-    final authService = ref.read(authServiceProvider);
-    final user = await authService.getCurrentUser();
-    if (user != null) {
-      state = user;
-    }
+    final authServiceAsync = ref.read(authServiceProvider);
+    authServiceAsync.when(
+      data: (authService) async {
+        final user = await authService.getCurrentUser();
+        if (user != null) {
+          state = user;
+        }
+      },
+      loading: () {},
+      error: (error, stack) {},
+    );
   }
 
   Future<void> setUser(User? user) async {
@@ -100,12 +110,18 @@ class AuthState extends _$AuthState {
   }
 
   Future<void> login(String phoneNumber, String password) async {
-    final authService = ref.read(authServiceProvider);
-    final user = await authService.login(phoneNumber, password);
-    if (user != null) {
-      ref.read(currentUserProvider.notifier).setUser(user);
-      state = true;
-    }
+    final authServiceAsync = ref.read(authServiceProvider);
+    authServiceAsync.when(
+      data: (authService) async {
+        final user = await authService.login(phoneNumber, password);
+        if (user != null) {
+          ref.read(currentUserProvider.notifier).setUser(user);
+          state = true;
+        }
+      },
+      loading: () {},
+      error: (error, stack) {},
+    );
   }
 
   Future<void> register({
@@ -114,30 +130,48 @@ class AuthState extends _$AuthState {
     String? email,
     required String password,
   }) async {
-    final authService = ref.read(authServiceProvider);
-    final user = await authService.register(
-      fullName: fullName,
-      phoneNumber: phoneNumber,
-      email: email,
-      password: password,
+    final authServiceAsync = ref.read(authServiceProvider);
+    authServiceAsync.when(
+      data: (authService) async {
+        final user = await authService.register(
+          fullName: fullName,
+          phoneNumber: phoneNumber,
+          email: email,
+          password: password,
+        );
+        if (user != null) {
+          ref.read(currentUserProvider.notifier).setUser(user);
+          state = true;
+        }
+      },
+      loading: () {},
+      error: (error, stack) {},
     );
-    if (user != null) {
-      ref.read(currentUserProvider.notifier).setUser(user);
-      state = true;
-    }
   }
 
   Future<void> logout() async {
-    final authService = ref.read(authServiceProvider);
-    await authService.logout();
-    ref.read(currentUserProvider.notifier).clearUser();
-    state = false;
+    final authServiceAsync = ref.read(authServiceProvider);
+    authServiceAsync.when(
+      data: (authService) async {
+        await authService.logout();
+        ref.read(currentUserProvider.notifier).clearUser();
+        state = false;
+      },
+      loading: () {},
+      error: (error, stack) {},
+    );
   }
 
   Future<void> checkAuthStatus() async {
-    final authService = ref.read(authServiceProvider);
-    final isAuthenticated = await authService.isAuthenticated();
-    state = isAuthenticated;
+    final authServiceAsync = ref.read(authServiceProvider);
+    authServiceAsync.when(
+      data: (authService) async {
+        final isAuthenticated = await authService.isAuthenticated();
+        state = isAuthenticated;
+      },
+      loading: () {},
+      error: (error, stack) {},
+    );
   }
 }
 
@@ -157,7 +191,7 @@ class ConnectivityState extends _$ConnectivityState {
 
 /// App Theme Provider
 @riverpod
-class AppTheme extends _$AppTheme {
+class AppThemeMode extends _$AppThemeMode {
   @override
   bool build() {
     // Default to light theme

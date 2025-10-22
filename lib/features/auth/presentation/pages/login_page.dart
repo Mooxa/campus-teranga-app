@@ -22,7 +22,7 @@ class LoginPage extends ConsumerWidget {
       backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(AppTheme.spacing['lg']!),
+          padding: const EdgeInsets.all(24),
           child: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -31,17 +31,17 @@ class LoginPage extends ConsumerWidget {
                   // Logo and welcome text
                   _buildHeader(theme),
                   
-                  const SizedBox(height: AppTheme.spacing['3xl']!),
+                  const SizedBox(height: 64),
                   
                   // Login form
                   _buildLoginForm(theme),
                   
-                  const SizedBox(height: AppTheme.spacing['lg']!),
+                  const SizedBox(height: 24),
                   
                   // Login button
                   _buildLoginButton(theme),
                   
-                  const SizedBox(height: AppTheme.spacing['md']!),
+                  const SizedBox(height: 16),
                   
                   // Register link
                   _buildRegisterLink(theme),
@@ -70,14 +70,14 @@ class LoginPage extends ConsumerWidget {
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: AppTheme.spacing['lg']!),
+        const SizedBox(height: 24),
         Text(
           'Bienvenue',
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: AppTheme.spacing['sm']!),
+        const SizedBox(height: 8),
         Text(
           'Connectez-vous à votre compte',
           style: theme.textTheme.bodyLarge?.copyWith(
@@ -98,7 +98,7 @@ class LoginPage extends ConsumerWidget {
             hintText: '+221 XX XXX XX XX',
           ),
         ),
-        const SizedBox(height: AppTheme.spacing['lg']!),
+        const SizedBox(height: 24),
         TextField(
           obscureText: true,
           decoration: InputDecoration(

@@ -74,7 +74,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
                 // Logo Animation
                 const SplashLogoWidget(),
                 
-                const SizedBox(height: AppTheme.spacing['2xl']!),
+                  const SizedBox(height: 48),
                 
                 // App Name
                 Text(
@@ -89,7 +89,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
                 .fadeIn(duration: 800.ms, delay: 600.ms)
                 .slideY(begin: 0.3, end: 0),
                 
-                const SizedBox(height: AppTheme.spacing['sm']!),
+                const SizedBox(height: 8),
                 
                 // Tagline
                 Text(
@@ -103,12 +103,12 @@ class _SplashPageState extends ConsumerState<SplashPage> {
                 .fadeIn(duration: 800.ms, delay: 800.ms)
                 .slideY(begin: 0.3, end: 0),
                 
-                const SizedBox(height: AppTheme.spacing['3xl']!),
+                const SizedBox(height: 64),
                 
                 // Loading Indicator
                 _buildLoadingIndicator(),
                 
-                const SizedBox(height: AppTheme.spacing['lg']!),
+                const SizedBox(height: 24),
                 
                 // Loading Text
                 Text(

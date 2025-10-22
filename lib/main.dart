@@ -44,7 +44,7 @@ class CampusTerangaApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
-    final isDarkTheme = ref.watch(appThemeProvider);
+    final isDarkTheme = ref.watch(appThemeModeProvider);
     
     return MaterialApp.router(
       title: AppConfig.appName,
