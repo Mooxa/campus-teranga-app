@@ -13,7 +13,7 @@ class AppConfig {
   // Environment Configuration
   static const String environment = String.fromEnvironment(
     'FLUTTER_APP_ENV', 
-    defaultValue: 'development',
+    defaultValue: 'production', // Changed to production for deployed backend
   );
 
   // App Metadata

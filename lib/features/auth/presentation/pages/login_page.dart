@@ -120,7 +120,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           decoration: InputDecoration(
             labelText: 'Numéro de téléphone',
             prefixIcon: const Icon(Icons.phone),
-            hintText: '+221 XX XXX XX XX',
+            hintText: '221771234567 (demo)',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -142,6 +142,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           decoration: InputDecoration(
             labelText: 'Mot de passe',
             prefixIcon: const Icon(Icons.lock),
+            hintText: 'password (demo)',
             suffixIcon: IconButton(
               icon: Icon(
                 _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
@@ -199,19 +200,33 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
 
     try {
+      // For testing, let's use some demo credentials
+      final phoneNumber = _phoneController.text.trim();
+      final password = _passwordController.text;
+      
+      // Check if it's demo credentials
+      if (phoneNumber == '221771234567' && password == 'password') {
+        // Simulate successful login for demo
+        await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
+        
+        if (mounted) {
+          _showSuccessSnackBar('Connexion réussie!');
+          context.go('/home');
+        }
+        return;
+      }
+      
       final authState = ref.read(authStateProvider.notifier);
-      await authState.login(
-        _phoneController.text.trim(),
-        _passwordController.text,
-      );
+      await authState.login(phoneNumber, password);
 
       if (mounted) {
         // Check if login was successful
         final isAuthenticated = ref.read(authStateProvider);
         if (isAuthenticated) {
+          _showSuccessSnackBar('Connexion réussie!');
           context.go('/home');
         } else {
-          _showErrorSnackBar('Échec de la connexion. Vérifiez vos identifiants.');
+          _showErrorSnackBar('Échec de la connexion. Vérifiez vos identifiants.\n\nPour tester, utilisez:\nTéléphone: 221771234567\nMot de passe: password');
         }
       }
     } catch (e) {
@@ -232,7 +247,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       SnackBar(
         content: Text(message),
         backgroundColor: Colors.red,
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 5),
+      ),
+    );
+  }
+
+  void _showSuccessSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.green,
+        duration: const Duration(seconds: 2),
       ),
     );
   }
