@@ -15,6 +15,16 @@ import '../../features/services/presentation/pages/services_page.dart';
 import '../../features/events/presentation/pages/events_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 
+/// Wrapper widget for LoginPage to resolve type issues
+class LoginPageWrapper extends ConsumerWidget {
+  const LoginPageWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return const LoginPage();
+  }
+}
+
 /// App Router Configuration using GoRouter
 /// 
 /// This router provides:
@@ -81,7 +91,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'login',
             name: 'login',
-            builder: (context, state) => const LoginPage(),
+            builder: (context, state) => const LoginPageWrapper(),
           ),
           GoRoute(
             path: 'register',
