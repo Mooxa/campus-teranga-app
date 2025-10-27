@@ -51,9 +51,7 @@ Future<StorageService> storageService(StorageServiceRef ref) async {
 @riverpod
 Future<ApiService> apiService(ApiServiceRef ref) async {
   final storageService = await ref.watch(storageServiceProvider.future);
-  return ApiService(
-    storageService: storageService,
-  );
+  return ApiService(storageService: storageService);
 }
 
 /// Auth Service Provider
@@ -129,23 +127,54 @@ class AuthState extends _$AuthState {
     required String phoneNumber,
     String? email,
     required String password,
+    required String confirmPassword,
   }) async {
+    print('🔗 [AUTH_STATE] Register method called');
+    print('📝 [AUTH_STATE] Registration data:');
+    print('   - Full Name: $fullName');
+    print('   - Phone: $phoneNumber');
+    print('   - Email: ${email ?? "Not provided"}');
+    print('   - Password: ${password.length} characters');
+    print('   - Confirm Password: ${confirmPassword.length} characters');
+    
     final authServiceAsync = ref.read(authServiceProvider);
+    print('🔍 [AUTH_STATE] Auth service state: ${authServiceAsync.runtimeType}');
+    
     authServiceAsync.when(
       data: (authService) async {
-        final user = await authService.register(
-          fullName: fullName,
-          phoneNumber: phoneNumber,
-          email: email,
-          password: password,
-        );
-        if (user != null) {
-          ref.read(currentUserProvider.notifier).setUser(user);
-          state = true;
+        print('✅ [AUTH_STATE] Auth service available, calling register...');
+        try {
+          final user = await authService.register(
+            fullName: fullName,
+            phoneNumber: phoneNumber,
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+          );
+          print('📥 [AUTH_STATE] Register response received');
+          print('👤 [AUTH_STATE] User data: ${user?.toString() ?? "null"}');
+          
+          if (user != null) {
+            print('✅ [AUTH_STATE] User created successfully, updating state...');
+            ref.read(currentUserProvider.notifier).setUser(user);
+            state = true;
+            print('🎉 [AUTH_STATE] Registration completed successfully');
+          } else {
+            print('❌ [AUTH_STATE] User is null - registration failed');
+          }
+        } catch (e) {
+          print('💥 [AUTH_STATE] Error in auth service register: $e');
+          print('📊 [AUTH_STATE] Error type: ${e.runtimeType}');
+          rethrow;
         }
       },
-      loading: () {},
-      error: (error, stack) {},
+      loading: () {
+        print('⏳ [AUTH_STATE] Auth service is loading...');
+      },
+      error: (error, stack) {
+        print('❌ [AUTH_STATE] Auth service error: $error');
+        print('📊 [AUTH_STATE] Error stack: $stack');
+      },
     );
   }
 

@@ -57,6 +57,7 @@ class AuthService {
     required String phoneNumber,
     String? email,
     required String password,
+    required String confirmPassword,
   }) async {
     try {
       _logger.d('Attempting registration for phone: $phoneNumber');
@@ -66,6 +67,7 @@ class AuthService {
         phoneNumber: phoneNumber,
         email: email,
         password: password,
+        confirmPassword: confirmPassword,
       );
       
       if (response != null && response['token'] != null) {

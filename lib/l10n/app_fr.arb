@@ -1,0 +1,302 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Campus Téranga",
+  "@appTitle": {
+    "description": "Le titre de l'application"
+  },
+  
+  "welcome": "Bienvenue",
+  "@welcome": {
+    "description": "Message de bienvenue"
+  },
+  
+  "login": "Connexion",
+  "@login": {
+    "description": "Texte du bouton de connexion"
+  },
+  
+  "register": "S'inscrire",
+  "@register": {
+    "description": "Texte du bouton d'inscription"
+  },
+  
+  "email": "Email",
+  "@email": {
+    "description": "Label du champ email"
+  },
+  
+  "password": "Mot de passe",
+  "@password": {
+    "description": "Label du champ mot de passe"
+  },
+  
+  "confirmPassword": "Confirmer le mot de passe",
+  "@confirmPassword": {
+    "description": "Label du champ confirmation mot de passe"
+  },
+  
+  "fullName": "Nom complet",
+  "@fullName": {
+    "description": "Label du champ nom complet"
+  },
+  
+  "phoneNumber": "Numéro de téléphone",
+  "@phoneNumber": {
+    "description": "Label du champ numéro de téléphone"
+  },
+  
+  "forgotPassword": "Mot de passe oublié ?",
+  "@forgotPassword": {
+    "description": "Texte du lien mot de passe oublié"
+  },
+  
+  "dontHaveAccount": "Vous n'avez pas de compte ?",
+  "@dontHaveAccount": {
+    "description": "Texte pour les utilisateurs sans compte"
+  },
+  
+  "alreadyHaveAccount": "Vous avez déjà un compte ?",
+  "@alreadyHaveAccount": {
+    "description": "Texte pour les utilisateurs avec compte existant"
+  },
+  
+  "signUp": "S'inscrire",
+  "@signUp": {
+    "description": "Texte du bouton s'inscrire"
+  },
+  
+  "signIn": "Se connecter",
+  "@signIn": {
+    "description": "Texte du bouton se connecter"
+  },
+  
+  "loading": "Chargement...",
+  "@loading": {
+    "description": "Texte de l'indicateur de chargement"
+  },
+  
+  "error": "Erreur",
+  "@error": {
+    "description": "Titre du message d'erreur"
+  },
+  
+  "success": "Succès",
+  "@success": {
+    "description": "Titre du message de succès"
+  },
+  
+  "networkError": "Erreur réseau. Veuillez vérifier votre connexion internet.",
+  "@networkError": {
+    "description": "Message d'erreur réseau"
+  },
+  
+  "serverError": "Erreur serveur. Veuillez réessayer plus tard.",
+  "@serverError": {
+    "description": "Message d'erreur serveur"
+  },
+  
+  "unknownError": "Une erreur inconnue s'est produite.",
+  "@unknownError": {
+    "description": "Message d'erreur inconnue"
+  },
+  
+  "validationError": "Erreur de validation",
+  "@validationError": {
+    "description": "Message d'erreur de validation"
+  },
+  
+  "emailRequired": "L'email est requis",
+  "@emailRequired": {
+    "description": "Message de validation email requis"
+  },
+  
+  "emailInvalid": "Veuillez entrer une adresse email valide",
+  "@emailInvalid": {
+    "description": "Message de validation email invalide"
+  },
+  
+  "passwordRequired": "Le mot de passe est requis",
+  "@passwordRequired": {
+    "description": "Message de validation mot de passe requis"
+  },
+  
+  "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+  "@passwordTooShort": {
+    "description": "Message de validation mot de passe trop court"
+  },
+  
+  "passwordMismatch": "Les mots de passe ne correspondent pas",
+  "@passwordMismatch": {
+    "description": "Message de validation mots de passe différents"
+  },
+  
+  "nameRequired": "Le nom complet est requis",
+  "@nameRequired": {
+    "description": "Message de validation nom requis"
+  },
+  
+  "phoneRequired": "Le numéro de téléphone est requis",
+  "@phoneRequired": {
+    "description": "Message de validation téléphone requis"
+  },
+  
+  "phoneInvalid": "Veuillez entrer un numéro de téléphone valide",
+  "@phoneInvalid": {
+    "description": "Message de validation téléphone invalide"
+  },
+  
+  "loginSuccess": "Connexion réussie",
+  "@loginSuccess": {
+    "description": "Message de succès connexion"
+  },
+  
+  "registerSuccess": "Inscription réussie",
+  "@registerSuccess": {
+    "description": "Message de succès inscription"
+  },
+  
+  "logoutSuccess": "Déconnexion réussie",
+  "@logoutSuccess": {
+    "description": "Message de succès déconnexion"
+  },
+  
+  "home": "Accueil",
+  "@home": {
+    "description": "Label de l'onglet accueil"
+  },
+  
+  "events": "Événements",
+  "@events": {
+    "description": "Label de l'onglet événements"
+  },
+  
+  "formations": "Formations",
+  "@formations": {
+    "description": "Label de l'onglet formations"
+  },
+  
+  "services": "Services",
+  "@services": {
+    "description": "Label de l'onglet services"
+  },
+  
+  "profile": "Profil",
+  "@profile": {
+    "description": "Label de l'onglet profil"
+  },
+  
+  "settings": "Paramètres",
+  "@settings": {
+    "description": "Label des paramètres"
+  },
+  
+  "language": "Langue",
+  "@language": {
+    "description": "Label du paramètre langue"
+  },
+  
+  "theme": "Thème",
+  "@theme": {
+    "description": "Label du paramètre thème"
+  },
+  
+  "lightTheme": "Clair",
+  "@lightTheme": {
+    "description": "Option thème clair"
+  },
+  
+  "darkTheme": "Sombre",
+  "@darkTheme": {
+    "description": "Option thème sombre"
+  },
+  
+  "systemTheme": "Système",
+  "@systemTheme": {
+    "description": "Option thème système"
+  },
+  
+  "about": "À propos",
+  "@about": {
+    "description": "Label à propos"
+  },
+  
+  "version": "Version",
+  "@version": {
+    "description": "Label version"
+  },
+  
+  "termsOfService": "Conditions d'utilisation",
+  "@termsOfService": {
+    "description": "Label conditions d'utilisation"
+  },
+  
+  "privacyPolicy": "Politique de confidentialité",
+  "@privacyPolicy": {
+    "description": "Label politique de confidentialité"
+  },
+  
+  "contactUs": "Nous contacter",
+  "@contactUs": {
+    "description": "Label nous contacter"
+  },
+  
+  "logout": "Déconnexion",
+  "@logout": {
+    "description": "Texte du bouton déconnexion"
+  },
+  
+  "cancel": "Annuler",
+  "@cancel": {
+    "description": "Texte du bouton annuler"
+  },
+  
+  "ok": "OK",
+  "@ok": {
+    "description": "Texte du bouton OK"
+  },
+  
+  "yes": "Oui",
+  "@yes": {
+    "description": "Texte du bouton oui"
+  },
+  
+  "no": "Non",
+  "@no": {
+    "description": "Texte du bouton non"
+  },
+  
+  "retry": "Réessayer",
+  "@retry": {
+    "description": "Texte du bouton réessayer"
+  },
+  
+  "save": "Enregistrer",
+  "@save": {
+    "description": "Texte du bouton enregistrer"
+  },
+  
+  "edit": "Modifier",
+  "@edit": {
+    "description": "Texte du bouton modifier"
+  },
+  
+  "delete": "Supprimer",
+  "@delete": {
+    "description": "Texte du bouton supprimer"
+  },
+  
+  "search": "Rechercher",
+  "@search": {
+    "description": "Texte du placeholder de recherche"
+  },
+  
+  "noResults": "Aucun résultat trouvé",
+  "@noResults": {
+    "description": "Message aucun résultat"
+  },
+  
+  "tryAgain": "Réessayer",
+  "@tryAgain": {
+    "description": "Message réessayer"
+  }
+}

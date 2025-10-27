@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/theme/app_theme.dart';
-import 'core/services/storage_service.dart';
 import 'core/providers/app_providers.dart';
 import 'core/navigation/app_router.dart';
 import 'core/config/app_config.dart';
-import 'core/localization/app_localizations.dart';
+import 'l10n/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +26,9 @@ void main() async {
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
+
+  // Initialize localization
+  await _initializeLocalization();
   
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
@@ -39,6 +41,15 @@ void main() async {
       child: CampusTerangaApp(),
     ),
   );
+}
+
+/// Initialize localization
+Future<void> _initializeLocalization() async {
+  // Set default locale
+  Intl.defaultLocale = L10n.defaultLocale.languageCode;
+  
+  // Initialize date formatting for supported locales
+  await initializeDateFormatting(L10n.defaultLocale.languageCode);
 }
 
 class CampusTerangaApp extends ConsumerWidget {
@@ -62,9 +73,9 @@ class CampusTerangaApp extends ConsumerWidget {
       routerConfig: router,
       
       // Localization
-      locale: const Locale('fr', 'SN'), // French - Senegal
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      locale: L10n.defaultLocale,
+      supportedLocales: L10n.supportedLocales,
+      localizationsDelegates: L10n.delegates,
       
       // Builder for global error handling
       builder: (context, child) {

@@ -1,33 +1,23 @@
 import 'package:flutter/foundation.dart';
+import '../errors/failures.dart';
 
-/// Base ViewModel class that provides common functionality for all ViewModels
+/// Base ViewModel
 /// 
-/// This class implements the MVVM pattern and provides:
-/// - State management with ChangeNotifier
-/// - Loading state management
-/// - Error handling
-/// - Common utility methods
+/// This abstract class provides common functionality for all ViewModels
+/// including loading states, error handling, and state management.
+
 abstract class BaseViewModel extends ChangeNotifier {
   bool _isLoading = false;
-  String? _error;
-  String? _successMessage;
+  bool _isInitialized = false;
+  Failure? _error;
 
-  /// Whether the ViewModel is currently loading
+  // Getters
   bool get isLoading => _isLoading;
-
-  /// Current error message, null if no error
-  String? get error => _error;
-
-  /// Current success message, null if no success message
-  String? get successMessage => _successMessage;
-
-  /// Whether there's an error
+  bool get isInitialized => _isInitialized;
+  Failure? get error => _error;
   bool get hasError => _error != null;
 
-  /// Whether there's a success message
-  bool get hasSuccessMessage => _successMessage != null;
-
-  /// Set loading state
+  // Loading state management
   void setLoading(bool loading) {
     if (_isLoading != loading) {
       _isLoading = loading;
@@ -35,32 +25,15 @@ abstract class BaseViewModel extends ChangeNotifier {
     }
   }
 
-  /// Set error message
-  void setError(String? error) {
+  // Error state management
+  void setError(Failure? error) {
     if (_error != error) {
       _error = error;
       notifyListeners();
     }
   }
 
-  /// Set success message
-  void setSuccessMessage(String? message) {
-    if (_successMessage != message) {
-      _successMessage = message;
-      notifyListeners();
-    }
-  }
-
-  /// Clear all messages (error and success)
-  void clearMessages() {
-    if (_error != null || _successMessage != null) {
-      _error = null;
-      _successMessage = null;
-      notifyListeners();
-    }
-  }
-
-  /// Clear only error message
+  // Clear error
   void clearError() {
     if (_error != null) {
       _error = null;
@@ -68,57 +41,78 @@ abstract class BaseViewModel extends ChangeNotifier {
     }
   }
 
-  /// Clear only success message
-  void clearSuccessMessage() {
-    if (_successMessage != null) {
-      _successMessage = null;
+  // Initialization state
+  void setInitialized(bool initialized) {
+    if (_isInitialized != initialized) {
+      _isInitialized = initialized;
       notifyListeners();
     }
   }
 
-  /// Execute an async operation with loading state management
-  Future<T?> executeWithLoading<T>(
-    Future<T> Function() operation, {
-    String? loadingMessage,
-    String? errorMessage,
-    bool showSuccess = false,
-  }) async {
+  // Initialize method to be overridden by subclasses
+  Future<void> initialize() async {
+    if (_isInitialized) return;
+    
+    setLoading(true);
+    clearError();
+    
     try {
-      setLoading(true);
-      clearMessages();
-      
-      final result = await operation();
-      
-      if (showSuccess && result != null) {
-        setSuccessMessage('Operation completed successfully');
-      }
-      
-      return result;
+      await onInitialize();
+      setInitialized(true);
     } catch (e) {
-      setError(errorMessage ?? 'An error occurred: ${e.toString()}');
-      return null;
+      setError(UnknownFailure(
+        message: e.toString(),
+        details: e,
+      ));
     } finally {
       setLoading(false);
     }
   }
 
-  /// Execute an async operation without loading state
-  Future<T?> execute<T>(
+  // Method to be overridden by subclasses
+  Future<void> onInitialize() async {}
+
+  // Refresh method
+  Future<void> refresh() async {
+    setInitialized(false);
+    await initialize();
+  }
+
+  // Dispose method
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  // Helper method for safe async operations
+  Future<T?> safeAsyncOperation<T>(
     Future<T> Function() operation, {
     String? errorMessage,
   }) async {
     try {
-      clearMessages();
       return await operation();
     } catch (e) {
-      setError(errorMessage ?? 'An error occurred: ${e.toString()}');
+      setError(UnknownFailure(
+        message: errorMessage ?? 'Operation failed: ${e.toString()}',
+        details: e,
+      ));
       return null;
     }
   }
 
-  @override
-  void dispose() {
-    clearMessages();
-    super.dispose();
+  // Helper method for safe sync operations
+  T? safeSyncOperation<T>(
+    T Function() operation, {
+    String? errorMessage,
+  }) {
+    try {
+      return operation();
+    } catch (e) {
+      setError(UnknownFailure(
+        message: errorMessage ?? 'Operation failed: ${e.toString()}',
+        details: e,
+      ));
+      return null;
+    }
   }
 }

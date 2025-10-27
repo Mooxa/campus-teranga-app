@@ -14,11 +14,29 @@ class ApiService {
 
   ApiService() {
     _loadToken();
+    print('🔗 API Service initialized with base URL: $baseUrl');
   }
 
   Future<void> _loadToken() async {
     final prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('token');
+  }
+
+  // Test connection to backend
+  Future<bool> testConnection() async {
+    try {
+      print('🔗 Testing connection to backend...');
+      final response = await _makeRequest(() => http.get(
+        Uri.parse('http://192.168.1.2:3000/health'),
+        headers: {'Content-Type': 'application/json'},
+      ));
+      
+      print('📥 Health check response: ${response.statusCode} - ${response.body}');
+      return response.statusCode == 200;
+    } catch (e) {
+      print('❌ Connection test failed: $e');
+      return false;
+    }
   }
 
   Future<void> _saveToken(String token) async {
@@ -63,22 +81,41 @@ class ApiService {
 
   // Auth endpoints
   Future<Map<String, dynamic>> login(String phoneNumber, String password) async {
-    final response = await _makeRequest(() => http.post(
-      Uri.parse('$baseUrl/auth/login'),
-      headers: _headers,
-      body: jsonEncode({
-        'phoneNumber': phoneNumber,
-        'password': password,
-      }),
-    ));
+    try {
+      print('🔗 API Service: Making login request to $baseUrl/auth/login');
+      print('📤 Request data: {phoneNumber: $phoneNumber}');
+      
+      final response = await _makeRequest(() => http.post(
+        Uri.parse('$baseUrl/auth/login'),
+        headers: _headers,
+        body: jsonEncode({
+          'phoneNumber': phoneNumber,
+          'password': password,
+        }),
+      ));
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      await _saveToken(data['token']);
-      return data;
-    } else {
-      final errorData = jsonDecode(response.body);
-      throw Exception(errorData['message'] ?? 'Login failed');
+      print('📥 Response status: ${response.statusCode}');
+      print('📥 Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        await _saveToken(data['token']);
+        print('✅ Login successful, token saved');
+        return data;
+      } else {
+        final errorData = jsonDecode(response.body);
+        print('❌ Login failed: ${errorData['message']}');
+        throw Exception(errorData['message'] ?? 'Login failed');
+      }
+    } catch (e) {
+      print('❌ Login error: $e');
+      if (e is http.ClientException) {
+        throw Exception('Network error: Please check your internet connection');
+      } else if (e.toString().contains('timeout')) {
+        throw Exception('Request timeout: Please try again');
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -88,23 +125,43 @@ class ApiService {
     String? email,
     required String password,
   }) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/auth/register'),
-      headers: _headers,
-      body: jsonEncode({
-        'fullName': fullName,
-        'phoneNumber': phoneNumber,
-        'email': email,
-        'password': password,
-      }),
-    );
+    try {
+      print('🔗 API Service: Making registration request to $baseUrl/auth/register');
+      print('📤 Request data: {fullName: $fullName, phoneNumber: $phoneNumber, email: $email}');
+      
+      final response = await _makeRequest(() => http.post(
+        Uri.parse('$baseUrl/auth/register'),
+        headers: _headers,
+        body: jsonEncode({
+          'fullName': fullName,
+          'phoneNumber': phoneNumber,
+          'email': email,
+          'password': password,
+        }),
+      ));
 
-    if (response.statusCode == 201) {
-      final data = jsonDecode(response.body);
-      await _saveToken(data['token']);
-      return data;
-    } else {
-      throw Exception('Registration failed: ${response.body}');
+      print('📥 Response status: ${response.statusCode}');
+      print('📥 Response body: ${response.body}');
+
+      if (response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        await _saveToken(data['token']);
+        print('✅ Registration successful, token saved');
+        return data;
+      } else {
+        final errorData = jsonDecode(response.body);
+        print('❌ Registration failed: ${errorData['message']}');
+        throw Exception(errorData['message'] ?? 'Registration failed');
+      }
+    } catch (e) {
+      print('❌ Registration error: $e');
+      if (e is http.ClientException) {
+        throw Exception('Network error: Please check your internet connection');
+      } else if (e.toString().contains('timeout')) {
+        throw Exception('Request timeout: Please try again');
+      } else {
+        rethrow;
+      }
     }
   }
 

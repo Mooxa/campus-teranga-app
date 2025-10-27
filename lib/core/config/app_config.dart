@@ -13,7 +13,7 @@ class AppConfig {
   // Environment Configuration
   static const String environment = String.fromEnvironment(
     'FLUTTER_APP_ENV', 
-    defaultValue: 'production', // Changed to production for deployed backend
+    defaultValue: 'development', // Changed to production for deployed backend
   );
 
   // App Metadata
@@ -25,7 +25,7 @@ class AppConfig {
   // API Configuration
   static const String productionApiUrl = 'https://campus-teranga-backend.onrender.com/api';
   static const String stagingApiUrl = 'https://campus-teranga-backend-staging.onrender.com/api';
-  static const String developmentApiUrl = 'http://127.0.0.1:3000/api';
+  static const String developmentApiUrl = 'http://192.168.1.2:3000/api';
   
   /// Get the appropriate API URL based on environment
   static String get apiUrl {

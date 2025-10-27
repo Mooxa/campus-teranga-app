@@ -216,17 +216,54 @@ class ApiService {
     required String phoneNumber,
     String? email,
     required String password,
+    required String confirmPassword,
   }) async {
-    return await post<Map<String, dynamic>>(
-      '/auth/register',
-      data: {
-        'fullName': fullName,
-        'phoneNumber': phoneNumber,
-        'email': email,
-        'password': password,
-      },
-      fromJson: (data) => data,
-    );
+    print('🌐 [API_SERVICE] Register method called');
+    print('📝 [API_SERVICE] Registration data:');
+    print('   - Full Name: $fullName');
+    print('   - Phone: $phoneNumber');
+    print('   - Email: ${email ?? "Not provided"}');
+    print('   - Password: ${password.length} characters');
+    print('   - Confirm Password: ${confirmPassword.length} characters');
+    
+    final requestData = {
+      'fullName': fullName,
+      'phoneNumber': phoneNumber,
+      'email': email,
+      'password': password,
+      'confirmPassword': confirmPassword,
+    };
+    
+    print('📤 [API_SERVICE] Sending POST request to /auth/register');
+    print('📤 [API_SERVICE] Request data: $requestData');
+    
+    try {
+      final result = await post<Map<String, dynamic>>(
+        '/auth/register',
+        data: requestData,
+        fromJson: (data) {
+          print('📥 [API_SERVICE] Raw response data: $data');
+          return data;
+        },
+      );
+      
+      print('📥 [API_SERVICE] Register response received');
+      print('📥 [API_SERVICE] Response data: $result');
+      
+      if (result != null) {
+        print('✅ [API_SERVICE] Registration successful');
+        print('👤 [API_SERVICE] User data: ${result['user']}');
+        print('🔑 [API_SERVICE] Token present: ${result['token'] != null}');
+      } else {
+        print('❌ [API_SERVICE] Registration failed - null response');
+      }
+      
+      return result;
+    } catch (e) {
+      print('💥 [API_SERVICE] Register error: $e');
+      print('📊 [API_SERVICE] Error type: ${e.runtimeType}');
+      rethrow;
+    }
   }
 
   Future<User?> getCurrentUser() async {
