@@ -282,7 +282,7 @@ class ApiService {
     if (type != null) queryParams['type'] = type;
     if (city != null) queryParams['city'] = city;
 
-    final response = await _dio.get('/formations', queryParameters: queryParams);
+      final response = await _dio.get('/formations', queryParameters: queryParams);
     
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
@@ -309,7 +309,7 @@ class ApiService {
     if (subcategory != null) queryParams['subcategory'] = subcategory;
     if (city != null) queryParams['city'] = city;
 
-    final response = await _dio.get('/services', queryParameters: queryParams);
+      final response = await _dio.get('/services', queryParameters: queryParams);
     
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
@@ -334,7 +334,7 @@ class ApiService {
     if (category != null) queryParams['category'] = category;
     if (upcoming != null) queryParams['upcoming'] = upcoming;
 
-    final response = await _dio.get('/events', queryParameters: queryParams);
+      final response = await _dio.get('/events', queryParameters: queryParams);
     
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;

@@ -1,7 +1,7 @@
 class AppConfig {
   // API Configuration
-  static const String productionApiUrl = 'https://campus-teranga-backend.onrender.com/api';
-  static const String developmentApiUrl = 'http://192.168.1.2:3000/api';
+  static const String productionApiUrl = 'https://campus-teranga-backend.onrender.com';
+  static const String developmentApiUrl = 'http://192.168.1.2:3000';
   
   // Current environment - set to 'production' for production builds
   static const String environment = 'development';

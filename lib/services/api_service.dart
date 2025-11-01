@@ -82,11 +82,11 @@ class ApiService {
   // Auth endpoints
   Future<Map<String, dynamic>> login(String phoneNumber, String password) async {
     try {
-      print('🔗 API Service: Making login request to $baseUrl/auth/login');
+      print('🔗 API Service: Making login request to $baseUrl/api/auth/login');
       print('📤 Request data: {phoneNumber: $phoneNumber}');
       
       final response = await _makeRequest(() => http.post(
-        Uri.parse('$baseUrl/auth/login'),
+        Uri.parse('$baseUrl/api/auth/login'),
         headers: _headers,
         body: jsonEncode({
           'phoneNumber': phoneNumber,
@@ -126,11 +126,11 @@ class ApiService {
     required String password,
   }) async {
     try {
-      print('🔗 API Service: Making registration request to $baseUrl/auth/register');
+      print('🔗 API Service: Making registration request to $baseUrl/api/auth/register');
       print('📤 Request data: {fullName: $fullName, phoneNumber: $phoneNumber, email: $email}');
       
       final response = await _makeRequest(() => http.post(
-        Uri.parse('$baseUrl/auth/register'),
+        Uri.parse('$baseUrl/api/auth/register'),
         headers: _headers,
         body: jsonEncode({
           'fullName': fullName,
@@ -167,7 +167,7 @@ class ApiService {
 
   Future<User> getCurrentUser() async {
     final response = await http.get(
-      Uri.parse('$baseUrl/auth/me'),
+      Uri.parse('$baseUrl/api/auth/me'),
       headers: _headers,
     );
 
@@ -185,7 +185,7 @@ class ApiService {
 
   // Formations endpoints
   Future<List<Formation>> getFormations({String? type, String? city}) async {
-    String url = '$baseUrl/formations';
+    String url = '$baseUrl/api/formations';
     List<String> queryParams = [];
     
     if (type != null) queryParams.add('type=$type');
@@ -210,7 +210,7 @@ class ApiService {
 
   Future<Formation> getFormation(String id) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/formations/$id'),
+      Uri.parse('$baseUrl/api/formations/$id'),
       headers: _headers,
     );
 
@@ -223,7 +223,7 @@ class ApiService {
 
   // Services endpoints
   Future<List<Service>> getServices({String? category, String? subcategory, String? city}) async {
-    String url = '$baseUrl/services';
+    String url = '$baseUrl/api/services';
     List<String> queryParams = [];
     
     if (category != null) queryParams.add('category=$category');
@@ -248,7 +248,7 @@ class ApiService {
   }
 
   Future<List<Service>> getServicesByCategory(String category, {String? subcategory, String? city}) async {
-    String url = '$baseUrl/services/category/$category';
+    String url = '$baseUrl/api/services/category/$category';
     List<String> queryParams = [];
     
     if (subcategory != null) queryParams.add('subcategory=$subcategory');
@@ -273,7 +273,7 @@ class ApiService {
 
   Future<Service> getService(String id) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/services/$id'),
+      Uri.parse('$baseUrl/api/services/$id'),
       headers: _headers,
     );
 
@@ -286,7 +286,7 @@ class ApiService {
 
   // Events endpoints
   Future<List<Event>> getEvents({String? category, bool? upcoming}) async {
-    String url = '$baseUrl/events';
+    String url = '$baseUrl/api/events';
     List<String> queryParams = [];
     
     if (category != null) queryParams.add('category=$category');
@@ -311,7 +311,7 @@ class ApiService {
 
   Future<Event> getEvent(String id) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/events/$id'),
+      Uri.parse('$baseUrl/api/events/$id'),
       headers: _headers,
     );
 
@@ -324,7 +324,7 @@ class ApiService {
 
   Future<void> registerForEvent(String eventId) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/events/$eventId/register'),
+      Uri.parse('$baseUrl/api/events/$eventId/register'),
       headers: _headers,
     );
 
@@ -335,7 +335,7 @@ class ApiService {
 
   Future<void> unregisterFromEvent(String eventId) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/events/$eventId/register'),
+      Uri.parse('$baseUrl/api/events/$eventId/register'),
       headers: _headers,
     );
 
@@ -347,7 +347,7 @@ class ApiService {
   // Admin endpoints
   Future<Map<String, dynamic>> getAdminStats() async {
     final response = await http.get(
-      Uri.parse('$baseUrl/admin/dashboard/stats'),
+      Uri.parse('$baseUrl/api/admin/dashboard/stats'),
       headers: _headers,
     );
 
@@ -364,7 +364,7 @@ class ApiService {
     String search = '',
     String role = '',
   }) async {
-    String url = '$baseUrl/admin/users?page=$page';
+    String url = '$baseUrl/api/admin/users?page=$page';
     if (search.isNotEmpty) url += '&search=$search';
     if (role.isNotEmpty) url += '&role=$role';
 
@@ -388,7 +388,7 @@ class ApiService {
 
   Future<void> updateAdminUser(String userId, Map<String, dynamic> data) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/admin/users/$userId'),
+      Uri.parse('$baseUrl/api/admin/users/$userId'),
       headers: _headers,
       body: jsonEncode(data),
     );
@@ -400,7 +400,7 @@ class ApiService {
 
   Future<void> deleteAdminUser(String userId) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/admin/users/$userId'),
+      Uri.parse('$baseUrl/api/admin/users/$userId'),
       headers: _headers,
     );
 
@@ -415,7 +415,7 @@ class ApiService {
     String search = '',
     String category = '',
   }) async {
-    String url = '$baseUrl/admin/events?page=$page';
+    String url = '$baseUrl/api/admin/events?page=$page';
     if (search.isNotEmpty) url += '&search=$search';
     if (category.isNotEmpty) url += '&category=$category';
 
@@ -439,7 +439,7 @@ class ApiService {
 
   Future<void> updateAdminEvent(String eventId, Map<String, dynamic> data) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/admin/events/$eventId'),
+      Uri.parse('$baseUrl/api/admin/events/$eventId'),
       headers: _headers,
       body: jsonEncode(data),
     );
@@ -451,7 +451,7 @@ class ApiService {
 
   Future<void> deleteAdminEvent(String eventId) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/admin/events/$eventId'),
+      Uri.parse('$baseUrl/api/admin/events/$eventId'),
       headers: _headers,
     );
 
@@ -466,7 +466,7 @@ class ApiService {
     String search = '',
     String type = '',
   }) async {
-    String url = '$baseUrl/admin/formations?page=$page';
+    String url = '$baseUrl/api/admin/formations?page=$page';
     if (search.isNotEmpty) url += '&search=$search';
     if (type.isNotEmpty) url += '&type=$type';
 
@@ -490,7 +490,7 @@ class ApiService {
 
   Future<void> updateAdminFormation(String formationId, Map<String, dynamic> data) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/admin/formations/$formationId'),
+      Uri.parse('$baseUrl/api/admin/formations/$formationId'),
       headers: _headers,
       body: jsonEncode(data),
     );
@@ -502,7 +502,7 @@ class ApiService {
 
   Future<void> deleteAdminFormation(String formationId) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/admin/formations/$formationId'),
+      Uri.parse('$baseUrl/api/admin/formations/$formationId'),
       headers: _headers,
     );
 
@@ -517,7 +517,7 @@ class ApiService {
     String search = '',
     String category = '',
   }) async {
-    String url = '$baseUrl/admin/services?page=$page';
+    String url = '$baseUrl/api/admin/services?page=$page';
     if (search.isNotEmpty) url += '&search=$search';
     if (category.isNotEmpty) url += '&category=$category';
 
@@ -541,7 +541,7 @@ class ApiService {
 
   Future<void> updateAdminService(String serviceId, Map<String, dynamic> data) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/admin/services/$serviceId'),
+      Uri.parse('$baseUrl/api/admin/services/$serviceId'),
       headers: _headers,
       body: jsonEncode(data),
     );
@@ -553,7 +553,7 @@ class ApiService {
 
   Future<void> deleteAdminService(String serviceId) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/admin/services/$serviceId'),
+      Uri.parse('$baseUrl/api/admin/services/$serviceId'),
       headers: _headers,
     );
 
