@@ -202,7 +202,7 @@ class ApiService {
   // Authentication endpoints
   Future<Map<String, dynamic>?> login(String phoneNumber, String password) async {
     return await post<Map<String, dynamic>>(
-      '/auth/login',
+      '/api/auth/login',
       data: {
         'phoneNumber': phoneNumber,
         'password': password,
@@ -234,12 +234,12 @@ class ApiService {
       'confirmPassword': confirmPassword,
     };
     
-    print('📤 [API_SERVICE] Sending POST request to /auth/register');
+    print('📤 [API_SERVICE] Sending POST request to /api/auth/register');
     print('📤 [API_SERVICE] Request data: $requestData');
     
     try {
       final result = await post<Map<String, dynamic>>(
-        '/auth/register',
+        '/api/auth/register',
         data: requestData,
         fromJson: (data) {
           print('📥 [API_SERVICE] Raw response data: $data');
@@ -268,7 +268,7 @@ class ApiService {
 
   Future<User?> getCurrentUser() async {
     return await get<User>(
-      '/auth/me',
+      '/api/auth/me',
       fromJson: (data) => User.fromJson(data['user']),
     );
   }
@@ -282,7 +282,7 @@ class ApiService {
     if (type != null) queryParams['type'] = type;
     if (city != null) queryParams['city'] = city;
 
-      final response = await _dio.get('/formations', queryParameters: queryParams);
+      final response = await _dio.get('/api/formations', queryParameters: queryParams);
     
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
@@ -293,7 +293,7 @@ class ApiService {
 
   Future<Formation?> getFormation(String id) async {
     return await get<Formation>(
-      '/formations/$id',
+      '/api/formations/$id',
       fromJson: (data) => Formation.fromJson(data),
     );
   }
@@ -309,7 +309,7 @@ class ApiService {
     if (subcategory != null) queryParams['subcategory'] = subcategory;
     if (city != null) queryParams['city'] = city;
 
-      final response = await _dio.get('/services', queryParameters: queryParams);
+      final response = await _dio.get('/api/services', queryParameters: queryParams);
     
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
@@ -320,7 +320,7 @@ class ApiService {
 
   Future<Service?> getService(String id) async {
     return await get<Service>(
-      '/services/$id',
+      '/api/services/$id',
       fromJson: (data) => Service.fromJson(data),
     );
   }
@@ -334,7 +334,7 @@ class ApiService {
     if (category != null) queryParams['category'] = category;
     if (upcoming != null) queryParams['upcoming'] = upcoming;
 
-      final response = await _dio.get('/events', queryParameters: queryParams);
+      final response = await _dio.get('/api/events', queryParameters: queryParams);
     
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
@@ -345,23 +345,23 @@ class ApiService {
 
   Future<Event?> getEvent(String id) async {
     return await get<Event>(
-      '/events/$id',
+      '/api/events/$id',
       fromJson: (data) => Event.fromJson(data),
     );
   }
 
   Future<bool> registerForEvent(String eventId) async {
-    return await delete('/events/$eventId/register');
+    return await delete('/api/events/$eventId/register');
   }
 
   Future<bool> unregisterFromEvent(String eventId) async {
-    return await delete('/events/$eventId/register');
+    return await delete('/api/events/$eventId/register');
   }
 
   // Admin endpoints
   Future<Map<String, dynamic>?> getAdminStats() async {
     return await get<Map<String, dynamic>>(
-      '/admin/dashboard/stats',
+      '/api/admin/dashboard/stats',
       fromJson: (data) => data,
     );
   }
@@ -369,7 +369,7 @@ class ApiService {
   // Health check
   Future<bool> checkHealth() async {
     try {
-      final response = await _dio.get('/health');
+      final response = await _dio.get('/api/health');
       return response.statusCode == 200;
     } catch (e) {
       return false;

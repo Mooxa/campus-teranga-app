@@ -23,9 +23,10 @@ class AppConfig {
   static const String appPackageName = 'com.campusteranga.app';
   
   // API Configuration
-  static const String productionApiUrl = 'https://campus-teranga-backend.onrender.com/api';
-  static const String stagingApiUrl = 'https://campus-teranga-backend-staging.onrender.com/api';
-  static const String developmentApiUrl = 'http://192.168.1.2:3000/api';
+  // NOTE: These URLs should NOT include /api - endpoints will add it
+  static const String productionApiUrl = 'https://campus-teranga-backend.onrender.com';
+  static const String stagingApiUrl = 'https://campus-teranga-backend-staging.onrender.com';
+  static const String developmentApiUrl = 'http://192.168.1.2:3000';
   
   /// Get the appropriate API URL based on environment
   static String get apiUrl {
